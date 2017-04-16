@@ -1,5 +1,6 @@
 import {tokeniser} from "../src/tokeniser";
 import {expect} from "chai";
+import {assert} from "mocha";
 
 describe('Tokeniser', () => {
   describe('Parenthesis', () => {
@@ -109,6 +110,25 @@ describe('Tokeniser', () => {
       ]
 
       expect(tokeniser(input)).to.eql(expectedToken)
+    })
+  })
+  describe('Whitespace', () => {
+    it('recognises whitespace', () => {
+      const input = ' '
+      const expectedToken = [
+        {
+          type: 'space',
+          value: ' '
+        }
+      ]
+
+      expect(tokeniser(input)).to.eql(expectedToken)
+    })
+  })
+  describe('Unrecognisable characters', () => {
+    it('throws an error', () => {
+      const input = '!'
+      expect(() => tokeniser(input)).to.throw(Error, /Unrecognisable character: !/)
     })
   })
 })

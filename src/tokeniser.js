@@ -12,5 +12,9 @@ export function tokeniser(input) {
     if(/[a-z]/.test(char)) {
       return {type: 'letter', value: char}
     }
+    if(/\s/.test(char)) {
+      return {type: 'space', value: ' '}
+    }
+    throw Error('Unrecognisable character: ' + char)
   })
 }
