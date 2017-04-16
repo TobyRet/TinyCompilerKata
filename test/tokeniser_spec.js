@@ -73,4 +73,42 @@ describe('Tokeniser', () => {
       expect(tokeniser(input)).to.eql(expectedToken)
     })
   })
+  describe('Letters', () => {
+    it('recognises letters from a-z', () => {
+      const input = 'a'
+      const expectedToken = [{
+        type: 'letter',
+        value: 'a'
+      }]
+
+      expect(tokeniser(input)).to.eql(expectedToken)
+    })
+    it('recognises numbers from a-z and parenthesis', () => {
+      const input = '(add)'
+      const expectedToken = [
+        {
+          type: 'paren',
+          value: '('
+        },
+        {
+          type: 'letter',
+          value: 'a'
+        },
+        {
+          type: 'letter',
+          value: 'd'
+        },
+        {
+          type: 'letter',
+          value: 'd'
+        },
+        {
+          type: 'paren',
+          value: ')'
+        }
+      ]
+
+      expect(tokeniser(input)).to.eql(expectedToken)
+    })
+  })
 })
