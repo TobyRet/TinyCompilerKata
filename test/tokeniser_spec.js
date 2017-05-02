@@ -109,4 +109,42 @@ describe('Tokeniser', () => {
       expect(() => tokeniser(input)).to.throw(Error, /Unrecognisable character: !/)
     })
   })
+
+  describe('Multiple characters', () => {
+    it('tokenises a string with multiple and varied characters', () => {
+      const input = 'add (1 2)'
+      const expectedToken = [
+        {
+          type: 'function',
+          value: 'add'
+        },
+        {
+          type: 'space',
+          value: ' '
+        },
+        {
+          type: 'paren',
+          value: '('
+        },
+        {
+          type: 'number',
+          value: '1'
+        },
+        {
+          type: 'space',
+          value: ' '
+        },
+        {
+          type: 'number',
+          value: '2'
+        },
+        {
+          type: 'paren',
+          value: ')'
+        }
+      ]
+
+      expect(tokeniser(input)).to.eql(expectedToken)
+    })
+  })
 })

@@ -83,17 +83,20 @@ export function tokeniser(input) {
     }
   }
 
-  while (current < input.length) {
-    tokeniseLeftParen()
-    tokeniseRightParen()
-    tokeniseWhitespace()
-    tokeniseString()
-    tokeniseFunction()
-    tokeniseNumber()
-
+  function rejectUnrecognisableCharacter() {
     if(UNRECOGNISED_CHARACTERS.test(char)) {
       throw Error('Unrecognisable character: ' + char)
     }
+  }
+
+  while (current < input.length) {
+    tokeniseLeftParen()
+    tokeniseString()
+    tokeniseFunction()
+    tokeniseNumber()
+    tokeniseWhitespace()
+    tokeniseRightParen()
+    rejectUnrecognisableCharacter()
 
     char = input[++current]
   }
