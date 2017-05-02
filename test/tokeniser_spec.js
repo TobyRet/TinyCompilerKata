@@ -40,8 +40,9 @@ describe('Tokeniser', () => {
       expect(tokeniser(input)).to.eql(expectedToken)
     })
   })
+
   describe('Numbers', () => {
-    it('recognises numbers from 0-9', () => {
+    it('recognises single numbers from 0-9', () => {
       const input = '1'
       const expectedToken = [{
         type: 'number',
@@ -50,68 +51,44 @@ describe('Tokeniser', () => {
 
       expect(tokeniser(input)).to.eql(expectedToken)
     })
-    it('recognises numbers from 0-9 and parenthesis', () => {
-      const input = '(29)'
-      const expectedToken = [
-        {
-          type: 'paren',
-          value: '('
-        },
-        {
-          type: 'number',
-          value: '2'
-        },
-        {
-          type: 'number',
-          value: '9'
-        },
-        {
-          type: 'paren',
-          value: ')'
-        }
-      ]
 
-      expect(tokeniser(input)).to.eql(expectedToken)
-    })
-  })
-  describe('Letters', () => {
-    it('recognises letters from a-z', () => {
-      const input = 'a'
+    it('recognises larger numbers', () => {
+      const input = '123'
       const expectedToken = [{
-        type: 'letter',
-        value: 'a'
+        type: 'number',
+        value: '123'
       }]
 
       expect(tokeniser(input)).to.eql(expectedToken)
     })
-    it('recognises numbers from a-z and parenthesis', () => {
-      const input = '(add)'
+  })
+
+  describe('Functions', () => {
+    it('regonises functions', () => {
+      const input = 'add'
+      const expectedToken = [{
+        type: 'function',
+        value: input
+      }]
+
+      expect(tokeniser(input)).to.eql(expectedToken)
+    })
+  })
+
+  describe('Strings', () => {
+    it('recognises strings as parameters', () => {
+      const input = '"thing"'
       const expectedToken = [
         {
-          type: 'paren',
-          value: '('
-        },
-        {
-          type: 'letter',
-          value: 'a'
-        },
-        {
-          type: 'letter',
-          value: 'd'
-        },
-        {
-          type: 'letter',
-          value: 'd'
-        },
-        {
-          type: 'paren',
-          value: ')'
+          type: 'string',
+          value: "thing"
         }
       ]
 
       expect(tokeniser(input)).to.eql(expectedToken)
     })
   })
+
   describe('Whitespace', () => {
     it('recognises whitespace', () => {
       const input = ' '
@@ -125,6 +102,7 @@ describe('Tokeniser', () => {
       expect(tokeniser(input)).to.eql(expectedToken)
     })
   })
+
   describe('Unrecognisable characters', () => {
     it('throws an error', () => {
       const input = '!'
