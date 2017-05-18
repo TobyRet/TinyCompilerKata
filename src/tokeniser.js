@@ -1,7 +1,7 @@
 export function tokeniser(input) {
   const NUMBERS = /[0-9]/
   const LETTERS = /[a-z]/
-  const UNRECOGNISED_CHARACTERS = /[^0-9a-zA-Z()"\s]/
+  const UNRECOGNISED_CHARACTERS = /[^0-9a-zA-Z()",\s]/
 
   let current = 0
   let char = input[current]
@@ -83,20 +83,30 @@ export function tokeniser(input) {
     }
   }
 
-  function rejectUnrecognisableCharacter() {
+  function tokeniseComma() {
+    if(char === ',') {
+      tokens.push({
+        type: 'comma',
+        value: ','
+      })
+    }
+  }
+
+  function rejectUnknownCharacter() {
     if(UNRECOGNISED_CHARACTERS.test(char)) {
       throw Error('Unrecognisable character: ' + char)
     }
   }
 
   while (current < input.length) {
-    tokeniseLeftParen()
-    tokeniseString()
+    rejectUnknownCharacter()
     tokeniseFunction()
+    tokeniseString()
     tokeniseNumber()
-    tokeniseWhitespace()
+    tokeniseLeftParen()
     tokeniseRightParen()
-    rejectUnrecognisableCharacter()
+    tokeniseComma()
+    tokeniseWhitespace()
 
     char = input[++current]
   }
